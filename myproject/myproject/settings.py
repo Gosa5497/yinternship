@@ -30,7 +30,7 @@ INSTALLED_APPS = [
     'widget_tweaks',
 
     # Local
-    'myapp',
+    
     'myapp.apps.MyappConfig',
 ]
 
