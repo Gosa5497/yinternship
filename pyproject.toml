@@ -1,19 +1,19 @@
 [tool.poetry]
-name = "myproject"  # Replace with your actual project name (no spaces, lowercase)
+name = "myproject"
 version = "0.1.0"
 description = "My Django Project"
 authors = ["Your Name <your.email@example.com>"]
 license = "MIT"
-readme = "README.md"  # Important for package metadata
+readme = "README.md"
 
 [tool.poetry.dependencies]
-python = "^3.8"  # Specify your Python version
-django = "^5.0"  # Django version
-gunicorn = "^21.2.0"  # Required for production deployment
+python = "^3.10"  # Changed from 3.8 to 3.10 (Django 5.x requirement)
+django = "^5.0"
+gunicorn = "^21.2.0"
 # Add other production dependencies here
 
 [tool.poetry.group.dev.dependencies]
-black = "^24.0"  # Development-only dependencies
+black = "^24.0"
 pylint = "^3.1"
 pytest = "^8.0"
 
