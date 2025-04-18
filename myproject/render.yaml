@@ -2,8 +2,8 @@ services:
   - type: web
     name: internship-web
     runtime: python
-    buildCommand: "./build.sh"
-    startCommand: "gunicorn myproject.wsgi:application"
+    buildCommand: "cd myproject && ./build.sh"
+    startCommand: "cd myproject && gunicorn myproject.wsgi:application"
     envVars:
       - key: DATABASE_URL
         fromDatabase:
