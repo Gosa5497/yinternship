@@ -90,7 +90,7 @@ DATABASES = {
         'NAME': os.getenv("MYSQL_DATABASE", "mah"),
         'USER': os.getenv("MYSQL_USER", "root"),
         'PASSWORD': os.getenv("MYSQL_PASSWORD", ""),
-        'HOST': os.getenv("MYSQL_HOST", "localhost"),  # Use IP/hostname
+        'HOST': '127.0.0.1',  # Use IP/hostname
         'PORT': os.getenv("MYSQL_PORT", "3306"),       # Explicit port
         'OPTIONS': {
             'charset': 'utf8mb4',
