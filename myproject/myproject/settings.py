@@ -1,6 +1,5 @@
 from pathlib import Path
 import dj_database_url
-
 import os
 from django.contrib.messages import constants as messages
 
@@ -9,7 +8,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # ---------------------------
 # SECURITY SETTINGS
 # ---------------------------
-SECRET_KEY = os.getenv("DJANGO_SECRET_KEY", "unsafe-dev-key")  # change in production
+SECRET_KEY = os.getenv("DJANGO_SECRET_KEY", "unsafe-dev-key")  # Change in production
 DEBUG = os.getenv("DJANGO_DEBUG", "True") == "True"
 
 # Add your deployed domain to allowed hosts
@@ -86,7 +85,6 @@ TEMPLATES = [
 # ---------------------------
 # DATABASE (MySQL) -- 🛠 Use real external DB in production
 # ---------------------------
-# Database configuration
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
@@ -101,14 +99,13 @@ DATABASES = {
 db_from_env = dj_database_url.config(
     conn_max_age=600,
     conn_health_checks=True,
-    default='mysql://root:GO19667543@127.0.0.1:3306/mah'  # Local fallback
+    default=os.getenv('DATABASE_URL', 'mysql://root:GO19667543@127.0.0.1:3306/mah')  # Local fallback
 )
 DATABASES['default'].update(db_from_env)
 
-# Special handling for SSL
+# Special handling for SSL (Optional, if applicable)
 if os.environ.get('MYSQL_SSL_MODE', '') == 'required':
     DATABASES['default']['OPTIONS']['ssl'] = {'ca': os.environ.get('MYSQL_SSL_CA')}
-
 
 # ---------------------------
 # CHANNELS (Redis) -- 🛠 Use real external Redis host
