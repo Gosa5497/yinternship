@@ -89,9 +89,13 @@ DATABASES = {
         'ENGINE': 'django.db.backends.mysql',
         'NAME': os.getenv("MYSQL_DATABASE", "mah"),
         'USER': os.getenv("MYSQL_USER", "root"),
-        'PASSWORD': os.getenv("MYSQL_PASSWORD", "GO19667543"),
-        'HOST': os.getenv("MYSQL_HOST", "localhost"),
-        'PORT': os.getenv("MYSQL_PORT", "3306"),
+        'PASSWORD': os.getenv("MYSQL_PASSWORD", ""),
+        'HOST': os.getenv("MYSQL_HOST", "localhost"),  # Use IP/hostname
+        'PORT': os.getenv("MYSQL_PORT", "3306"),       # Explicit port
+        'OPTIONS': {
+            'charset': 'utf8mb4',
+            'ssl_mode': 'DISABLED'  # Remove if using SSL
+        }
     }
 }
 
