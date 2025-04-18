@@ -7,10 +7,11 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # ---------------------------
 # SECURITY SETTINGS
 # ---------------------------
-SECRET_KEY = os.getenv("DJANGO_SECRET_KEY", "unsafe-dev-key")  # use .env for production
+SECRET_KEY = os.getenv("DJANGO_SECRET_KEY", "unsafe-dev-key")  # change in production
 DEBUG = os.getenv("DJANGO_DEBUG", "True") == "True"
-ALLOWED_HOSTS = ['aastu-sims-s9j8.onrender.com', 'localhost', '127.0.0.1']
 
+# Add your deployed domain to allowed hosts
+ALLOWED_HOSTS = ['*']
 
 # ---------------------------
 # APPLICATIONS
@@ -31,7 +32,6 @@ INSTALLED_APPS = [
     'widget_tweaks',
 
     # Local
-    
     'myapp.apps.MyappConfig',
 ]
 
@@ -82,7 +82,7 @@ TEMPLATES = [
 ]
 
 # ---------------------------
-# DATABASE (MySQL)
+# DATABASE (MySQL) -- 🛠 Use real external DB in production
 # ---------------------------
 DATABASES = {
     'default': {
@@ -90,19 +90,19 @@ DATABASES = {
         'NAME': os.getenv("MYSQL_DATABASE", "mah"),
         'USER': os.getenv("MYSQL_USER", "root"),
         'PASSWORD': os.getenv("MYSQL_PASSWORD", "GO19667543"),
-        'HOST': os.getenv("MYSQL_HOST", "127.0.0.1"),
+        'HOST': os.getenv("MYSQL_HOST", "db.example.com"),  # ❗️Update this!
         'PORT': os.getenv("MYSQL_PORT", "3306"),
     }
 }
 
 # ---------------------------
-# CHANNELS (Redis)
+# CHANNELS (Redis) -- 🛠 Use real external Redis host
 # ---------------------------
 CHANNEL_LAYERS = {
     'default': {
         'BACKEND': 'channels_redis.core.RedisChannelLayer',
         'CONFIG': {
-            "hosts": [("127.0.0.1", 6379)],
+            "hosts": [(os.getenv("REDIS_HOST", "redis.example.com"), 6379)],  # ❗️Update this!
         },
     },
 }
@@ -130,13 +130,13 @@ USE_TZ = True
 # ---------------------------
 STATIC_URL = '/static/'
 STATICFILES_DIRS = [os.path.join(BASE_DIR, "myapp", "static")]
-STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')  # for collectstatic
+STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 
 MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
 # ---------------------------
-# CACHING (dummy for dev)
+# CACHING (Dummy cache – fine for dev)
 # ---------------------------
 CACHES = {
     'default': {
@@ -145,7 +145,7 @@ CACHES = {
 }
 
 # ---------------------------
-# SECURITY HEADERS (PRODUCTION)
+# SECURITY HEADERS (optional prod settings)
 # ---------------------------
 SECURE_SSL_REDIRECT = os.getenv("DJANGO_SSL_REDIRECT", "False") == "True"
 SECURE_HSTS_SECONDS = int(os.getenv("DJANGO_HSTS_SECONDS", 0))
