@@ -31,7 +31,7 @@ INSTALLED_APPS = [
 
     # Local
     
-    'myapp.apps.MyappConfig',
+    'myproject.myapp',
 ]
 
 CRISPY_ALLOWED_TEMPLATE_PACKS = "bootstrap5"
