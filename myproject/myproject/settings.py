@@ -84,20 +84,29 @@ TEMPLATES = [
 # ---------------------------
 # DATABASE (MySQL) -- 🛠 Use real external DB in production
 # ---------------------------
+# Database configuration
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
-        'NAME': os.getenv("MYSQL_DATABASE", "mah"),
-        'USER': os.getenv("MYSQL_USER", "root"),
-        'PASSWORD': os.getenv("MYSQL_PASSWORD", ""),
-        'HOST': '127.0.0.1',  # Use IP/hostname
-        'PORT': os.getenv("MYSQL_PORT", "3306"),       # Explicit port
         'OPTIONS': {
-            'charset': 'utf8mb4',
-            'ssl_mode': 'DISABLED'  # Remove if using SSL
+            'init_command': "SET sql_mode='STRICT_TRANS_TABLES'",
+            'ssl': {'ca': os.environ.get('MYSQL_SSL_CA', '')}
         }
     }
 }
+
+# Update with DATABASE_URL if present
+db_from_env = dj_database_url.config(
+    conn_max_age=600,
+    conn_health_checks=True,
+    default='mysql://root:GO19667543@127.0.0.1:3306/mah'  # Local fallback
+)
+DATABASES['default'].update(db_from_env)
+
+# Special handling for SSL
+if os.environ.get('MYSQL_SSL_MODE', '') == 'required':
+    DATABASES['default']['OPTIONS']['ssl'] = {'ca': os.environ.get('MYSQL_SSL_CA')}
+
 
 # ---------------------------
 # CHANNELS (Redis) -- 🛠 Use real external Redis host
