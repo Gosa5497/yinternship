@@ -90,7 +90,7 @@ DATABASES = {
         'NAME': os.getenv("MYSQL_DATABASE", "mah"),
         'USER': os.getenv("MYSQL_USER", "root"),
         'PASSWORD': os.getenv("MYSQL_PASSWORD", "GO19667543"),
-        'HOST': os.getenv("MYSQL_HOST"),  # ❗️Update this!
+        'HOST': os.getenv("MYSQL_HOST", "db.myproject.onrender.com"),
         'PORT': os.getenv("MYSQL_PORT", "3306"),
     }
 }
