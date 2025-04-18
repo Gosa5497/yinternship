@@ -9,7 +9,8 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # ---------------------------
 SECRET_KEY = os.getenv("DJANGO_SECRET_KEY", "unsafe-dev-key")  # use .env for production
 DEBUG = os.getenv("DJANGO_DEBUG", "True") == "True"
-ALLOWED_HOSTS = os.getenv("DJANGO_ALLOWED_HOSTS", "127.0.0.1,localhost").split(',')
+ALLOWED_HOSTS = ['aastu-sims-s9j8.onrender.com', 'localhost', '127.0.0.1']
+
 
 # ---------------------------
 # APPLICATIONS
