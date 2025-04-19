@@ -2433,22 +2433,7 @@ def student_dashboard(request):
 
 @login_required
 def department_head_dashboard(request):
-    # Get the department of the logged-in department head
-    department_head = DepartmentHead.objects.get(user=request.user)
-    department = department_head.department
-
-    # Count students in the department
-    student_count = Student.objects.filter(department=department).count()
-
-    # Count advisors in the department
-    advisor_count = Advisor.objects.filter(department=department).count()
-
-    return render(request, 'departement_head/department_head_dashboard.html', {
-        'user': request.user,
-        'student_count': student_count,
-        'advisor_count': advisor_count,
-    })
-
+    return render(request, 'departement_head/department_head_dashboard.html', {'user': request.user})
 
 @login_required
 def industry_supervisor_dashboard(request):
