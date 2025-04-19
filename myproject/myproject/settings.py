@@ -1,4 +1,5 @@
 from pathlib import Path
+import dj_database_url
 import os
 from django.contrib.messages import constants as messages
 
@@ -7,9 +8,11 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # ---------------------------
 # SECURITY SETTINGS
 # ---------------------------
-SECRET_KEY = os.getenv("DJANGO_SECRET_KEY", "unsafe-dev-key")  # use .env for production
+SECRET_KEY = os.getenv("DJANGO_SECRET_KEY", "unsafe-dev-key")  # Change in production
 DEBUG = os.getenv("DJANGO_DEBUG", "True") == "True"
-ALLOWED_HOSTS = os.getenv("DJANGO_ALLOWED_HOSTS", "127.0.0.1,localhost").split(',')
+
+# Add your deployed domain to allowed hosts
+ALLOWED_HOSTS = ['*']
 
 # ---------------------------
 # APPLICATIONS
@@ -80,7 +83,10 @@ TEMPLATES = [
 ]
 
 # ---------------------------
-# DATABASE (MySQL)
+# DATABASE (MySQL) -- 🛠 Use real external DB in production
+# ---------------------------
+# ---------------------------
+# DATABASE (SQLite - default)
 # ---------------------------
 DATABASES = {
     'default': {
@@ -91,13 +97,13 @@ DATABASES = {
 
 
 # ---------------------------
-# CHANNELS (Redis)
+# CHANNELS (Redis) -- 🛠 Use real external Redis host
 # ---------------------------
 CHANNEL_LAYERS = {
     'default': {
         'BACKEND': 'channels_redis.core.RedisChannelLayer',
         'CONFIG': {
-            "hosts": [("127.0.0.1", 6379)],
+            "hosts": [(os.getenv("REDIS_HOST", "redis.example.com"), 6379)],  # ❗️Update this!
         },
     },
 }
@@ -125,13 +131,13 @@ USE_TZ = True
 # ---------------------------
 STATIC_URL = '/static/'
 STATICFILES_DIRS = [os.path.join(BASE_DIR, "myapp", "static")]
-STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')  # for collectstatic
+STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 
 MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
 # ---------------------------
-# CACHING (dummy for dev)
+# CACHING (Dummy cache – fine for dev)
 # ---------------------------
 CACHES = {
     'default': {
@@ -140,7 +146,7 @@ CACHES = {
 }
 
 # ---------------------------
-# SECURITY HEADERS (PRODUCTION)
+# SECURITY HEADERS (optional prod settings)
 # ---------------------------
 SECURE_SSL_REDIRECT = os.getenv("DJANGO_SSL_REDIRECT", "False") == "True"
 SECURE_HSTS_SECONDS = int(os.getenv("DJANGO_HSTS_SECONDS", 0))
