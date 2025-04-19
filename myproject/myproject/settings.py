@@ -30,7 +30,7 @@ INSTALLED_APPS = [
     'widget_tweaks',
 
     # Local
-    'myapp',
+    'myapp.apps.MyappConfig',
 ]
 
 CRISPY_ALLOWED_TEMPLATE_PACKS = "bootstrap5"
@@ -84,14 +84,11 @@ TEMPLATES = [
 # ---------------------------
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.mysql',
-        'NAME': os.getenv("MYSQL_DATABASE", "mah"),
-        'USER': os.getenv("MYSQL_USER", "root"),
-        'PASSWORD': os.getenv("MYSQL_PASSWORD", "GO19667543"),
-        'HOST': os.getenv("MYSQL_HOST", "127.0.0.1"),
-        'PORT': os.getenv("MYSQL_PORT", "3306"),
+        'ENGINE': 'django.db.backends.sqlite3',
+        'NAME': BASE_DIR / 'db.sqlite3',
     }
 }
+
 
 # ---------------------------
 # CHANNELS (Redis)
