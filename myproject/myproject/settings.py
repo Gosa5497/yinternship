@@ -82,13 +82,14 @@ TEMPLATES = [
     },
 ]
 
-# ---------------------------
-# DATABASE (MySQL)
-# ---------------------------
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+        'ENGINE': 'django.db.backends.mysql',
+        'NAME': 'railway',                            # Last part of the URL
+        'USER': 'root',                               # After mysql://
+        'PASSWORD': 'KYtGLENrVOsAsdVGcOUhXKpWJQuesAWD',           # Replace ******** with the real password
+        'HOST': 'switchyard.proxy.rlwy.net',          # Host in the URL
+        'PORT': '45141',                              # Port in the URL
     }
 }
 
