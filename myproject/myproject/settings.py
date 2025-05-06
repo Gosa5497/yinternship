@@ -87,17 +87,11 @@ TEMPLATES = [
 # ---------------------------
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'sql12776986',
-        'USER': 'sql12776986',
-        'PASSWORD': '449xDTqsCn',
-        'HOST': 'sql12.freesqldatabase.com',
-        'PORT': '3306',
-        'OPTIONS': {
-            'init_command': "SET sql_mode='STRICT_TRANS_TABLES'",
-        },
+        'ENGINE': 'django.db.backends.sqlite3',
+        'NAME': BASE_DIR / 'db.sqlite3',
     }
 }
+
 
 
 # ---------------------------
