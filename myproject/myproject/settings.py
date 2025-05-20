@@ -1,22 +1,13 @@
 from pathlib import Path
-
 import os
-from django.contrib.messages import constants as messages
+from datetime import timedelta
 
 BASE_DIR = Path(__file__).resolve().parent.parent
 
-# ---------------------------
-# SECURITY SETTINGS
-# ---------------------------
-SECRET_KEY = os.getenv("DJANGO_SECRET_KEY", "unsafe-dev-key")  # Change in production
-DEBUG = os.getenv("DJANGO_DEBUG", "True") == "True"
-
-# Add your deployed domain to allowed hosts
+SECRET_KEY = 'django-insecure-t_4yvf$%d!09z*yqqs0z48++lh#z-%8!z_1&)*a9r9_8)6pj)n'
+DEBUG = True
 ALLOWED_HOSTS = ['*']
 
-# ---------------------------
-# APPLICATIONS
-# ---------------------------
 INSTALLED_APPS = [
     'django.contrib.admin',
     'django.contrib.auth',
@@ -24,27 +15,17 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-
-    # Third-party
-    'rest_framework',
+    'django.contrib.humanize',
+    'corsheaders',
     'crispy_forms',
-    'crispy_bootstrap5',
-    'channels',
     'widget_tweaks',
-
-    # Local
-    'myapp.apps.MyappConfig',
+    'myapp',
 ]
 
-CRISPY_ALLOWED_TEMPLATE_PACKS = "bootstrap5"
-CRISPY_TEMPLATE_PACK = "bootstrap5"
-
-# ---------------------------
-# MIDDLEWARE & URLS
-# ---------------------------
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
+    'corsheaders.middleware.CorsMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
@@ -53,19 +34,9 @@ MIDDLEWARE = [
 ]
 
 ROOT_URLCONF = 'myproject.urls'
-WSGI_APPLICATION = 'myproject.wsgi.application'
-ASGI_APPLICATION = 'myproject.asgi.application'
-
-# ---------------------------
-# CUSTOM USER MODEL
-# ---------------------------
 AUTH_USER_MODEL = 'myapp.User'
 LOGIN_URL = '/login/'
-LOGIN_REDIRECT_URL = 'urls'
 
-# ---------------------------
-# TEMPLATES
-# ---------------------------
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
@@ -82,77 +53,68 @@ TEMPLATES = [
     },
 ]
 
+WSGI_APPLICATION = 'myproject.wsgi.application'
+
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'railway',                            # Last part of the URL
-        'USER': 'root',                               # After mysql://
-        'PASSWORD': 'KYtGLENrVOsAsdVGcOUhXKpWJQuesAWD',           # Replace ******** with the real password
-        'HOST': 'switchyard.proxy.rlwy.net',          # Host in the URL
-        'PORT': '45141',                              # Port in the URL
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': 'test_db_02jc',
+        'USER': 'test',
+        'PASSWORD': '1Jk5qqsevDCYkK6jsnTXRlp2lzl5FDvQ',
+        'HOST': 'dpg-d0k3vlnfte5s738b3iv0-a.oregon-postgres.render.com',
+        'PORT': '5432',
+        'OPTIONS': {
+            'sslmode': 'require',  # ✅ Required for Render
+        },
     }
 }
 
-
-
-# ---------------------------
-# CHANNELS (Redis) -- 🛠 Use real external Redis host
-# ---------------------------
-CHANNEL_LAYERS = {
-    'default': {
-        'BACKEND': 'channels_redis.core.RedisChannelLayer',
-        'CONFIG': {
-            "hosts": [(os.getenv("REDIS_HOST", "redis.example.com"), 6379)],  # ❗️Update this!
-        },
-    },
-}
-
-# ---------------------------
-# PASSWORD VALIDATION
-# ---------------------------
-AUTH_PASSWORD_VALIDATORS = [
-    {'NAME': 'django.contrib.auth.password_validation.UserAttributeSimilarityValidator'},
-    {'NAME': 'django.contrib.auth.password_validation.MinimumLengthValidator'},
-    {'NAME': 'django.contrib.auth.password_validation.CommonPasswordValidator'},
-    {'NAME': 'django.contrib.auth.password_validation.NumericPasswordValidator'},
+CORS_ALLOWED_ORIGINS = [
+    "https://www.askyourdatabase.com",
+    "http://localhost:8000",
+    "http://127.0.0.1:8000",
 ]
 
-# ---------------------------
-# LOCALIZATION
-# ---------------------------
+CORS_ALLOW_CREDENTIALS = True
+X_FRAME_OPTIONS = 'ALLOWALL'
+CSRF_TRUSTED_ORIGINS = [
+    "https://www.askyourdatabase.com",
+    "http://localhost:8000",
+]
+
+AUTH_PASSWORD_VALIDATORS = [
+    {
+        'NAME': 'django.contrib.auth.password_validation.UserAttributeSimilarityValidator',
+    },
+    {
+        'NAME': 'django.contrib.auth.password_validation.MinimumLengthValidator',
+    },
+    {
+        'NAME': 'django.contrib.auth.password_validation.CommonPasswordValidator',
+    },
+    {
+        'NAME': 'django.contrib.auth.password_validation.NumericPasswordValidator',
+    },
+]
+
 LANGUAGE_CODE = 'en-us'
 TIME_ZONE = 'UTC'
 USE_I18N = True
 USE_TZ = True
 
-# ---------------------------
-# STATIC & MEDIA FILES
-# ---------------------------
 STATIC_URL = '/static/'
 STATICFILES_DIRS = [os.path.join(BASE_DIR, "myapp", "static")]
-STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
-
 MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
-# ---------------------------
-# CACHING (Dummy cache – fine for dev)
-# ---------------------------
-CACHES = {
-    'default': {
-        'BACKEND': 'django.core.cache.backends.dummy.DummyCache',
-    }
-}
+DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
-# ---------------------------
-# SECURITY HEADERS (optional prod settings)
-# ---------------------------
-SECURE_SSL_REDIRECT = os.getenv("DJANGO_SSL_REDIRECT", "False") == "True"
-SECURE_HSTS_SECONDS = int(os.getenv("DJANGO_HSTS_SECONDS", 0))
-
-# ---------------------------
-# MESSAGES
-# ---------------------------
+# Security Settings for development
+SESSION_COOKIE_SAMESITE = 'Lax'
+CSRF_COOKIE_SAMESITE = 'Lax'
+SESSION_COOKIE_SECURE = False
+CSRF_COOKIE_SECURE = False
+from django.contrib.messages import constants as messages
 MESSAGE_TAGS = {
     messages.DEBUG: 'alert-info',
     messages.INFO: 'alert-info',
@@ -160,8 +122,3 @@ MESSAGE_TAGS = {
     messages.WARNING: 'alert-warning',
     messages.ERROR: 'alert-danger',
 }
-
-# ---------------------------
-# PRIMARY KEY FIELD
-# ---------------------------
-DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
